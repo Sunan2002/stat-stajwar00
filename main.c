@@ -15,6 +15,29 @@ char * readable_form(long size){
     return end[x];
 }
 
+char * readable_permissions(mode_t mode, char * output){
+    char ans[10] = "000000000";
+    if (mode & S_IRUSR) ans[0] = 'r';
+    else ans[0] = '-';
+    if (mode & S_IWUSR) ans[1] = 'w';
+    else ans[1] = '-';
+    if (mode & S_IXUSR) ans[2] = 'x';
+    else ans[2] = '-';
+    if (mode & S_IRGRP) ans[3] = 'r';
+    else ans[3] = '-';
+    if (mode & S_IWGRP) ans[4] = 'w';
+    else ans[4] = '-';
+    if (mode & S_IXGRP) ans[5] = 'x';
+    else ans[5] = '-';
+    if (mode & S_IROTH) ans[6] = 'r';
+    else ans[6] = '-';
+    if (mode & S_IWOTH) ans[7] = 'w';
+    else ans[7] = '-';
+    if (mode & S_IXOTH) ans[8] = 'x';
+    else ans[8] = '-';
+    strcpy(output, ans);
+    return output;
+}
 
 int main(){
     
@@ -39,6 +62,8 @@ int main(){
     printf("\nGetting the file permissions:\n");
     mode_t permissions = buffer.st_mode;
     printf("\n File Permissions: %d\n", permissions);
+    char output[] = "";
+    printf("\nReadable File Permissions: %s\n", readable_permissions(permissions, output));
     
     printf("\n Getting Time of Last Access \n");
     time_t atime = buffer.st_atime;
